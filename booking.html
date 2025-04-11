@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Session | CoachConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .booking-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #28619f;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .coach-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .coach-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #28619f;
+        }
+        
+        .coach-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .coach-details h2 {
+            color: #28619f;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .coach-specialty {
+            color: #666;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .booking-form {
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #28619f;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(40, 97, 159, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: #3e8e41;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            color: #28619f;
+            text-decoration: none;
+            font-weight: 500;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+        
+        .back-link:hover {
+            color: #1f4d7d;
+            text-decoration: underline;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        @media (max-width: 768px) {
+            .booking-container {
+                padding: 1.5rem;
+                margin: 1rem auto;
+            }
+            
+            .coach-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <h1>Book Your Coaching Session</h1>
+        
+        <div class="coach-info" id="coach-display">
+            <!-- This will be filled by JavaScript -->
+        </div>
+        
+        <div class="booking-form">
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name" class="required-field">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="required-field">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone" class="required-field">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date" class="required-field">Preferred Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time" class="required-field">Preferred Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="session-type" class="required-field">Session Type</label>
+                    <select id="session-type" name="session-type" required>
+                        <option value="">Select a session type</option>
+                        <option value="individual">Individual Training (1:1)</option>
+                        <option value="group">Group Session</option>
+                        <option value="consultation">Consultation</option>
+                        <option value="workshop">Workshop</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Notes (Optional)</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Any special requests or information about your goals"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-calendar-check"></i> Book Session Now
+                </button>
+            </form>
+            
+            <a href="index.html#coaches" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Coaches List
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get coach parameter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const coach = urlParams.get('coach');
+            
+            // Display coach information
+            const coachDisplay = document.getElementById('coach-display');
+            
+            if (coach === 'adwaith') {
+                coachDisplay.innerHTML = `
+                    <div class="coach-image">
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQHJ7YW3YkyPmA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1711472971225?e=1749686400&v=beta&t=fjQrHe8BNI-JfeZlJTsEgDpZuEMRwpcwslLGQrDAB2c" alt="Adwaith Prasad">
+                    </div>
+                    <div class="coach-details">
+                        <h2>Adwaith Prasad</h2>
+                        <p class="coach-specialty"><span class="sport-icon">🏃</span> Athletics Coach</p>
+                    </div>
+                `;
+                document.title = "Book with Adwaith Prasad | CoachConnect";
+            } 
+            else if (coach === 'gafoor') {
+                coachDisplay.innerHTML = `
+                    <div class="coach-image">
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQG4JlxU3THa_Q/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1686120460073?e=1749686400&v=beta&t=8FBGROi9APnz9enadQJvynEP1hroDKQ15fpB7krdpsw" alt="Gafoor Mohammed">
+                    </div>
+                    <div class="coach-details">
+                        <h2>Abdul Gafoor</h2>
+                        <p class="coach-specialty"><span class="sport-icon">🥊</span> Boxing Coach</p>
+                    </div>
+                `;
+                document.title = "Book with Abdul Gafoor | CoachConnect";
+            }
+            else if (coach === 'diljith') {
+                coachDisplay.innerHTML = `
+                    <div class="coach-image">
+                        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Diljith Kumar">
+                    </div>
+                    <div class="coach-details">
+                        <h2>Diljith T</h2>
+                        <p class="coach-specialty"><span class="sport-icon">🤼</span> Wrestling Coach</p>
+                    </div>
+                `;
+                document.title = "Book with Diljith T | CoachConnect";
+            }
+            else {
+                coachDisplay.innerHTML = `
+                    <div class="coach-details">
+                        <h2>Select a Coach</h2>
+                        <p>Please select a coach from our <a href="index.html#coaches">coaches list</a></p>
+                    </div>
+                `;
+            }
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+            
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                const form = e.target;
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Get form values
+                const formData = new FormData(form);
+                const bookingData = {
+                    coach: coach || 'Unknown',
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    date: formData.get('date'),
+                    time: formData.get('time'),
+                    sessionType: formData.get('session-type'),
+                    message: formData.get('message') || 'No additional notes'
+                };
+                
+                // In a real app, you would send this data to your backend
+                console.log('Booking submitted:', bookingData);
+                
+                // Show success message
+                alert('Booking request submitted successfully!\n\nWe will contact you shortly to confirm your session details.');
+                form.reset();
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

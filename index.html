@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoachConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Button Styles */
+        .cta-button {
+            display: inline-block;
+            background-color: #28619f;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #1f4d7d;
+            transform: translateY(-2px);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #28619f;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: #28619f;
+        }
+
+        .nav-link.active {
+            color: #28619f;
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #28619f;
+            animation: underline 0.3s ease-out;
+        }
+
+        @keyframes underline {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding-top: 70px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h1 span {
+            color: #28619f;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 10%;
+            min-height: 100vh;
+            scroll-margin-top: 70px;
+        }
+
+        section:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #28619f;
+            text-align: center;
+        }
+
+        /* Responsive Menu */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                flex-direction: column;
+                background-color: white;
+                padding: 2rem;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transition: left 0.3s;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* How It Works Section */
+        .how-it-works .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+        }
+
+        .step i {
+            font-size: 3rem;
+            color: #28619f;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Featured Coaches Section */
+        .featured-coaches {
+            padding: 5rem 2rem;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        
+        .coaches-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Coach Card Styling */
+        .coach-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        .coach-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .coach-image-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .coach-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .coach-card:hover .coach-photo {
+            transform: scale(1.05);
+        }
+        
+        .coach-info {
+            padding: 1.5rem;
+        }
+        
+        .coach-card h3 {
+            color: #28619f;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .coach-specialty {
+            color: #666;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .sport-icon {
+            font-size: 1.2rem;
+        }
+        
+        .coach-stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .stat i {
+            color: #28619f;
+        }
+        
+        .coach-quote {
+            font-style: italic;
+            color: #444;
+            margin: 1rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .coach-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .view-profile {
+            background: #28619f;
+            color: white;
+        }
+        
+        .book-now {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .cta-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-button i {
+            font-size: 1rem;
+        }
+        
+        /* Why Choose Section */
+        .why-choose .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .benefit {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .benefit i {
+            font-size: 2.5rem;
+            color: #28619f;
+            margin-bottom: 1rem;
+        }
+        
+        .benefit h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .testimonial {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .testimonial img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial blockquote {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        /* Footer Section */
+        .footer {
+            background-color: #222;
+            color: #fff;
+            padding: 3rem 5% 1rem;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #28619f;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #28619f;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: #28619f;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .newsletter-form button {
+            padding: 0.5rem 1rem;
+            background-color: #28619f;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #1d4a7a;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        @media (max-width: 768px) {
+            .coach-actions {
+                flex-direction: column;
+            }
+            
+            .coach-card {
+                max-width: 100%;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">Coach<span>Connect</span></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#coaches" class="nav-link">Coaches</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="cta-button">Login</a></li>
+            </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Coach.<br><span>Elevate Your Game.</span></h1>
+            <p>Connect with top-tier coaches and mentors to unlock your full potential.</p>
+            <a href="#coaches" class="cta-button">Get Started</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <i class="fas fa-search"></i>
+                <h3>Step 1</h3>
+                <p>Search for coaches based on your sport & goals.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-user-check"></i>
+                <h3>Step 2</h3>
+                <p>View profiles, read reviews & compare coaching styles.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-calendar-check"></i>
+                <h3>Step 3</h3>
+                <p>Book a session & start training with your ideal coach.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coaches Section -->
+    <section id="coaches" class="featured-coaches">
+        <h2>Featured Coaches</h2>
+        <div class="coaches-container">
+            <!-- Coach Adwaith - Athletics -->
+            <div class="coach-card">
+                <div class="coach-image-container">
+                    <img src="https://media.licdn.com/dms/image/v2/D5603AQHJ7YW3YkyPmA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1711472971225?e=1749686400&v=beta&t=fjQrHe8BNI-JfeZlJTsEgDpZuEMRwpcwslLGQrDAB2c" 
+                         alt="Coach Adwaith - Athletics Coach" 
+                         class="coach-photo">
+                </div>
+                <div class="coach-info">
+                    <h3>Adwaith Prasad</h3>
+                    <div class="coach-specialty">
+                        <span class="sport-icon">🏃</span>
+                        <span>Athletics Coach</span>
+                    </div>
+                    <div class="coach-stats">
+                        <div class="stat">
+                            <i class="fas fa-award"></i>
+                            <span>2 Years Exp.</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5 (15)</span>
+                        </div>
+                    </div>
+                    <p class="coach-quote">"Building champions with the perfect balance of skill & mindset."</p>
+                    <div class="coach-actions">
+                        <a href="coach-profile-adwaith.html" class="cta-button view-profile">
+                            <i class="fas fa-user-circle"></i> View Profile
+                        </a>
+                        <a href="booking.html?coach=adwaith" class="cta-button book-now">
+                            <i class="fas fa-calendar-check"></i> Book Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coach Gafoor - Boxing -->
+            <div class="coach-card">
+                <div class="coach-image-container">
+                    <img src="https://media.licdn.com/dms/image/v2/D4E03AQG4JlxU3THa_Q/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1686120460073?e=1749686400&v=beta&t=8FBGROi9APnz9enadQJvynEP1hroDKQ15fpB7krdpsw" 
+                         alt="Coach Gafoor - Boxing Coach" 
+                         class="coach-photo">
+                </div>
+                <div class="coach-info">
+                    <h3>Abdul Gafoor</h3>
+                    <div class="coach-specialty">
+                        <span class="sport-icon">🥊</span>
+                        <span>Boxing Coach</span>
+                    </div>
+                    <div class="coach-stats">
+                        <div class="stat">
+                            <i class="fas fa-award"></i>
+                            <span>3 Years Exp.</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5 (19)</span>
+                        </div>
+                    </div>
+                    <p class="coach-quote">"Building champions with the perfect balance of skill & mindset."</p>
+                    <div class="coach-actions">
+                        <a href="coach-profile-gafoor.html" class="cta-button view-profile">
+                            <i class="fas fa-user-circle"></i> View Profile
+                        </a>
+                        <a href="booking.html?coach=gafoor" class="cta-button book-now">
+                            <i class="fas fa-calendar-check"></i> Book Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coach Diljith - Wrestling -->
+            <div class="coach-card">
+                <div class="coach-image-container">
+                    <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
+                         alt="Coach Diljith - Wrestling Coach" 
+                         class="coach-photo">
+                </div>
+                <div class="coach-info">
+                    <h3>Diljith T</h3>
+                    <div class="coach-specialty">
+                        <span class="sport-icon">🤼</span>
+                        <span>Wrestling Coach</span>
+                    </div>
+                    <div class="coach-stats">
+                        <div class="stat">
+                            <i class="fas fa-award"></i>
+                            <span>2 Years Exp.</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.9/5 (15)</span>
+                        </div>
+                    </div>
+                    <p class="coach-quote">"Building champions with the perfect balance of skill & mindset."</p>
+                    <div class="coach-actions">
+                        <a href="coach-profile-diljith.html" class="cta-button view-profile">
+                            <i class="fas fa-user-circle"></i> View Profile
+                        </a>
+                        <a href="booking.html?coach=diljith" class="cta-button book-now">
+                            <i class="fas fa-calendar-check"></i> Book Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="why-choose">
+        <h2>Why Choose <span>CoachConnect?</span></h2>
+        <div class="benefits">
+            <div class="benefit">
+                <i class="fas fa-user-check"></i>
+                <h3>Verified & Experienced Coaches</h3>
+                <p>Train with top-rated, professional, and certified coaches.</p>
+            </div>
+            <div class="benefit">
+                <i class="fas fa-list-alt"></i>
+                <h3>Personalized Training Plans</h3>
+                <p>Get custom training programs designed for your goals.</p>
+            </div>
+            <div class="benefit">
+                <i class="fas fa-users"></i>
+                <h3>One-on-One & Group Sessions</h3>
+                <p>Choose between personalized or group coaching options.</p>
+            </div>
+            <div class="benefit">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Flexible Scheduling</h3>
+                <p>Book training sessions at times that suit your schedule.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2>What Our Athletes Say</h2>
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <img src="athlete1.jpg" alt="Athlete 1">
+                <blockquote>
+                    "CoachConnect helped me find the perfect coach! My skills have improved dramatically."
+                </blockquote>       
+                <h3>- Eren Yeager</h3>
+            </div>
+            <div class="testimonial">
+                <img src="athlete2.jpg" alt="Athlete 2">
+                <blockquote>
+                    "The personalized training plans are a game-changer. Highly recommend this platform!"
+                </blockquote>
+                <h3>- Levi Ackerman</h3>
+            </div>
+            <div class="testimonial">
+                <img src="athlete3.jpg" alt="Athlete 3">
+                <blockquote>
+                    "Training with CoachConnect gave me the confidence to compete at a higher level."
+                </blockquote>
+                <h3>- Armin Arlert</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#coaches">Coaches</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <p>Email: support@coachconnect.com</p>
+                <p>Phone: +1 (123) 456-7890</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="cta-button">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <p class="footer-bottom">© 2025 CoachConnect. All rights reserved.</p>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Highlight active navigation link while scrolling
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (window.scrollY >= (sectionTop - 100)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Coach profile click tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.view-profile').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const coachName = this.getAttribute('href').split('-')[1].replace('.html', '');
+                    console.log(`Viewing profile of ${coachName}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
