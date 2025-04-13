@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - CoachConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md">
+    <h2 class="text-3xl font-bold mb-6 text-center">Login to CoachConnect</h2>
+    <input id="loginEmail" type="email" placeholder="Email" class="w-full px-4 py-3 mb-4 bg-gray-700 rounded-lg" />
+    <input id="loginPassword" type="password" placeholder="Password" class="w-full px-4 py-3 mb-6 bg-gray-700 rounded-lg" />
+    <button onclick="login()" class="w-full bg-green-600 hover:bg-green-700 transition-all px-4 py-3 rounded-lg font-semibold">Login</button>
+    <p class="mt-4 text-center text-sm">Don't have an account? <a href="signup.html" class="text-blue-400 hover:underline">Sign up</a></p>
+  </div>
+
+  <script type="module" src="{{ url_for('static', filename='login-script.js') }}"></script>
+
+</body>
+</html>

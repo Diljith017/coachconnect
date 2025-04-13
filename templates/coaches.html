@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>All Coaches - Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styling for premium template */
+        .coach-card {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        .coach-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .coach-image {
+            width: 100%;
+            height: auto;
+            max-width: 200px; /* Image size adjustment */
+            margin: 0 auto;
+            display: block;
+        }
+        .coach-info {
+            text-align: center;
+            padding-top: 10px;
+        }
+        .coach-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .coach-specialization, .coach-experience {
+            color: #555;
+        }
+        .premium-btn {
+            background-color: #f1c40f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .premium-btn:hover {
+            background-color: #e67e22;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <h2 class="text-center mb-4">Our Featured Coaches - Premium</h2>
+    
+    <div class="container">
+        <div class="row">
+            {% for coach in coaches %}
+            <div class="col-md-4 mb-4">
+                <div class="coach-card">
+                    <img src="{{ url_for('static', filename='uploads/' ~ coach.profile_image) }}" class="coach-image" alt="Coach Image">
+                    <div class="coach-info">
+                        <h5 class="coach-name">{{ coach.name }}</h5>
+                        <p class="coach-specialization"><strong>Specialization:</strong> {{ coach.specialization }}</p>
+                        <p class="coach-experience"><strong>Experience:</strong> {{ coach.experience_years }} years</p>
+                        <p class="coach-bio">{{ coach.bio }}</p>
+                        <a href="{{ coach.instagram }}" class="premium-btn" target="_blank">Instagram</a> |
+                        <a href="{{ coach.youtube }}" class="premium-btn" target="_blank">BOOK-NOW</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

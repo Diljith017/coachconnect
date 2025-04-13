@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Panel - Featured Coaches</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+    <h2>Featured Coaches</h2>
+    <a class="btn btn-primary mb-3" href="{{ url_for('add_coach') }}">Add New Coach</a>
+
+    <!-- Coaches List in Card Layout -->
+    <div class="row">
+        {% for coach in coaches %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ url_for('static', filename='uploads/' ~ coach.profile_image) }}" class="card-img-top" alt="Coach Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ coach.name }}</h5>
+                    <p class="card-text"><strong>Specialization:</strong> {{ coach.specialization }}</p>
+                    <p><strong>Experience:</strong> {{ coach.experience_years }} years</p>
+                    <p>{{ coach.bio }}</p>
+                    <a href="{{ coach.instagram }}" target="_blank">Instagram</a> |
+                    <a href="{{ coach.youtube }}" target="_blank">BOOKING</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Coaches List in Table Layout -->
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Experience</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for coach in coaches %}
+            <tr>
+                <td>{{ coach.name }}</td>
+                <td>{{ coach.specialization }}</td>
+                <td>{{ coach.experience_years }} years</td>
+                <td>
+                    <form action="{{ url_for('delete_coach', coach_id=coach.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this coach?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
